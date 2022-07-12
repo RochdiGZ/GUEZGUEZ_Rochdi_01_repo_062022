@@ -1,33 +1,22 @@
 import requests
 from bs4 import BeautifulSoup
 
+website_url = "http://books.toscrape.com/"
+
 
 def get_html_code_from(page_url: str) -> BeautifulSoup:
     response = requests.get(page_url)
     return BeautifulSoup(response.content, 'html.parser')
 
 
-def scrape_all_tags_li_soup(home_url: str) -> list:
+def get_categories_urls(home_url: str) -> list:
+    categories_urls = []
     home_soup = get_html_code_from(home_url)
     # Ne pas parser la balise <li> d'indice 0
     all_li = home_soup.find('ul', class_="nav nav-list").find_all('li')[1:]
-    return all_li
-
-
-def get_categories_urls(home_url: str) -> list:
-    categories_urls = []
-    all_li = scrape_all_tags_li_soup(home_url)
     for li in all_li:
         categories_urls.append(home_url + li.find("a")["href"])
     return categories_urls
-
-
-def get_categories_names(home_url: str) -> list:
-    categories_names = []
-    all_li = scrape_all_tags_li_soup(home_url)
-    for li in all_li:
-        categories_names.append(li.get_text().strip())
-    return categories_names
 
 
 def get_pages_number_from(category_url: str) -> int:

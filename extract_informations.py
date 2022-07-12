@@ -1,8 +1,7 @@
 import csv
 from pathlib import Path
-from common_modules import get_html_code_from, get_pages_urls_of_category
+from modules_to_import import get_html_code_from, get_pages_urls_of_category, website_url
 
-site_url = "http://books.toscrape.com/"
 # Définir une liste contenant les clés des données pour un livre (la première ligne de chaque fichier CSV)
 keys = ["product_page_url", "universal_product_code", "title", "price_including_tax", "price_excluding_tax",
         "number_available", "product_description", "category", "review_rating", "image_url"]
@@ -13,7 +12,7 @@ def get_books_urls_of_page(page_url: str) -> list:
     books_page_soup = get_html_code_from(page_url)
     titles = books_page_soup.find_all("h3")
     for title in titles:
-        book_url = title.find("a")["href"].replace("../../..", site_url + 'catalogue')
+        book_url = title.find("a")["href"].replace("../../..", website_url + 'catalogue')
         books_page_urls.append(book_url)
     return books_page_urls
 
@@ -40,10 +39,9 @@ def scrape_book_data(book_url: str) -> dict:
     # Extraire le lien, la catégorie et le titre d'un livre
     ul_soup = book_soup.find('ul', class_="breadcrumb")
     book_category = ul_soup.find_all('li')[2].get_text().strip()
-    # book_title = ul_soup.find_all('li')[3].get_text().strip()
     # Extraire le lien de l'image d'un livre
     img_soup = book_soup.find(id="product_gallery").find("img")
-    book_image_url = img_soup["src"].replace("../../", site_url)
+    book_image_url = img_soup["src"].replace("../../", website_url)
     book_title = img_soup["alt"]
     # Déterminer le code, le prix ht, le prix ttc et la disponibilité d'un livre
     table_soup = book_soup.find('table')
