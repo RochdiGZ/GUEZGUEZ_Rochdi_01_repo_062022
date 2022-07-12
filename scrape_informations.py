@@ -1,39 +1,11 @@
 import csv
-import requests
-from bs4 import BeautifulSoup
 from pathlib import Path
+from common_modules import get_html_code_from, get_pages_urls_of_category
+
 site_url = "http://books.toscrape.com/"
-# Définir une liste contenant les clés des données pour un livre
+# Définir une liste contenant les clés des données pour un livre (la première ligne de chaque fichier CSV)
 keys = ["product_page_url", "universal_product_code", "title", "price_including_tax", "price_excluding_tax",
         "number_available", "product_description", "category", "review_rating", "image_url"]
-
-
-def get_html_code_from(page_url: str) -> BeautifulSoup:
-    response = requests.get(page_url)
-    return BeautifulSoup(response.content, 'html.parser')
-
-
-def scrape_all_tags_li_soup(home_url: str) -> list:
-    home_soup = get_html_code_from(home_url)
-    # Ne pas parser la balise <li> d'indice 0
-    all_li = home_soup.find('ul', class_="nav nav-list").find_all('li')[1:]
-    return all_li
-
-
-def get_categories_urls(home_url: str) -> list:
-    categories_urls = []
-    all_li = scrape_all_tags_li_soup(home_url)
-    for li in all_li:
-        categories_urls.append(home_url + li.find("a")["href"])
-    return categories_urls
-
-
-def get_categories_names(home_url: str) -> list:
-    categories_names = []
-    all_li = scrape_all_tags_li_soup(home_url)
-    for li in all_li:
-        categories_names.append(li.get_text().strip())
-    return categories_names
 
 
 def get_books_urls_of_page(page_url: str) -> list:
@@ -52,32 +24,6 @@ def get_all_books_urls(category_url: str) -> list:
     for page_url in pages_urls:
         all_books_urls.append(get_books_urls_of_page(page_url))
     return all_books_urls
-
-
-def get_pages_number_from(category_url: str) -> int:
-    category_soup = get_html_code_from(category_url)
-    # Extraire le nombre de livres par catégorie
-    tag_form = category_soup.find("form", class_="form-horizontal")
-    books_number = int(tag_form.find("strong").get_text())
-    # Déterminer le nombre de pages web correspondant à une catégorie
-    if books_number <= 20:
-        pages_number = 1
-    else:
-        if books_number // 20 == 0:
-            pages_number = books_number // 20
-        else:
-            pages_number = books_number // 20 + 1
-    return pages_number
-
-
-def get_pages_urls_of_category(category_url: str) -> list:
-    pages_number = get_pages_number_from(category_url)
-    category_pages_urls = [category_url]
-    if pages_number > 1:
-        for number in range(2, pages_number+1):
-            next_page_url = category_url.replace("index", f"page-{number}")
-            category_pages_urls.append(next_page_url)
-    return category_pages_urls
 
 
 def new_file_csv(file_name: str, fieldnames: list):
@@ -125,36 +71,28 @@ def scrape_book_data(book_url: str) -> dict:
     return book_informations
 
 
-def save_book_data(file_name: str, book_data: dict):
+def save_book_data(category_name: str, book_data: dict):
     relative_path = 'data/csv_files/'
     folder = Path(relative_path)
     folder.mkdir(parents=True, exist_ok=True)
-    with open(relative_path + file_name + '.csv', 'a', newline='', encoding='UTF-8') as csv_file:
+    with open(relative_path + category_name + '.csv', 'a', newline='', encoding='UTF-8') as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=keys, lineterminator="\n", delimiter=",")
         writer.writerow(book_data)
 
 
-def scrape_category_name(page_url: str) -> str:
-    category_soup = get_html_code_from(page_url)
-    category_name = category_soup.find('ul', class_="breadcrumb").find_all('li')[2].get_text().strip()
-    return category_name
-
-
 def save_books_informations(category_url: str):
-    file_name = scrape_category_name(category_url)
+    # Extraire le nom de la catégorie de livres
+    category_soup = get_html_code_from(category_url)
+    category_name = category_soup.find('ul', class_="breadcrumb").find_all('li')[2].get_text().strip()
     # Créer un fichier csv portant le nom de la catégorie
-    new_file_csv(file_name, keys)
-    # Définir les url(s) de page(s) d'une catégorie
+    new_file_csv(category_name, keys)
+    # Extraire le(s) lien(s) de page(s) de livres pour une catégorie
     pages_urls = get_pages_urls_of_category(category_url)
     for page_url in pages_urls:
+        # Extraire le(s) lien(s) de livres pour chaque page d'une catégorie
         books_urls = get_books_urls_of_page(page_url)
         for book_url in books_urls:
+            # Extraire les données de chaque livre figurant dans une page
             book_data = scrape_book_data(book_url)
-            save_book_data(file_name, book_data)
-
-
-def scrape_books_informations_from(home_url: str):
-    print("Exécution en cours pour extraire les informations de tous les livres pour chaque catégorie ...")
-    categories = get_categories_urls(home_url)
-    for category in categories:
-        save_books_informations(category)
+            # Ajouter les données d'un livre à la fin du fichier csv portant le nom de la catégorie de ce livre
+            save_book_data(category_name, book_data)

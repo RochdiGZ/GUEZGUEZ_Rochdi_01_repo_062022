@@ -3,13 +3,6 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="C:\Users\FUjiTSU\PyCharmProjects\GUEZGUEZ_Rochdi_01_repo_062022\all_books.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="C:\Users\FUjiTSU\PyCharmProjects\PythonTest\data\csv_files\Travel.csv">
           <value>
             <Attribute>
@@ -157,13 +150,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\data\csv_files\Historical Fiction.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\data\csv_files\Historical.csv">
           <value>
             <Attribute>
@@ -193,13 +179,6 @@
           </value>
         </entry>
         <entry key="\data\csv_files\Music.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\data\csv_files\Mystery.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -249,13 +228,6 @@
           </value>
         </entry>
         <entry key="\data\csv_files\Poetry.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\data\csv_files\Travel.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
