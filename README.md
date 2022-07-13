@@ -1,4 +1,4 @@
-Nom de repository : GUEZGUEZ_Rochdi_01_repo_062022
+ Nom de repository : GUEZGUEZ_Rochdi_01_repo_062022
 
 Projet 02 : Utiliser les bases de Python pour l'analyse de marché
 
