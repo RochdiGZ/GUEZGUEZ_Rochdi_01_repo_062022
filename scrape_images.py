@@ -23,11 +23,10 @@ def scrape_books_images_from(home_url: str):
                 image_url = tag_img['src'].replace("../../../../", home_url)
                 image_title = tag_img['alt']
                 image_name = re.sub(r"[\-!=$é%&.|:(){}[\]?#\"*+/,']*", "", image_title)
-                image_format='.jpg'
+                image_format = '.jpg'
                 path_length = len(str(Path.cwd())) + len(relative_path) + len(image_format)
                 if len(image_name) > 255 - path_length:
                     image_name = image_name[:255 - path_length - len(image_format)]
-                    print('image_name:', image_name)
                 with open(relative_path + image_name + image_format, 'wb') as jpg_file:
                     response = requests.get(image_url)
                     jpg_file.write(response.content)
