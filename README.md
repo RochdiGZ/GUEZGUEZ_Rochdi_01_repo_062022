@@ -65,7 +65,7 @@ IV. Récupération du repository depuis GitHub à partir du lien https://github.
 
 V. Exécution du script Python main.py relatif aux besoins du projet 02 : Utiliser les bases de Python pour l'analyse de marché
 
-	1. Créez l'environnment virtuel Project_env dans le dossier GUEZGUEZ_Rochdi_01_repo_062022 (voir paragraphe III.)
+	1. Créez l'environnment virtuel Project02_env dans le dossier GUEZGUEZ_Rochdi_01_repo_062022 (voir paragraphe III.)
 	2. Activez l'environnement virtuel Project02_env ayant été créé précédement (voir paragraphe III.)
 	3. Accédez au terminal "Git Bash" ou "Pycharm" pour taper et exécuter la commande qui permet tout d'abord de mettre à jour le module pip :
 	python -m pip install --upgrade pip
