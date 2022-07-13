@@ -155,6 +155,6 @@ def save_books_informations(category_url: str):
 
 def scrape_books_informations_from(home_url: str):
     print("Exécution en cours pour extraire les informations de tous les livres pour chaque catégorie ...")
-    categories = get_categories_urls(home_url)
-    for category in categories:
-        save_books_informations(category)
+    categories_urls = get_categories_urls(home_url)
+    for category_url in categories_urls:
+        save_books_informations(category_url)
