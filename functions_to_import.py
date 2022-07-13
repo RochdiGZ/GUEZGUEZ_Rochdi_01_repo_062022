@@ -12,7 +12,7 @@ def get_html_code_from(page_url: str) -> BeautifulSoup:
 def get_categories_urls(home_url: str) -> list:
     categories_urls = []
     home_soup = get_html_code_from(home_url)
-    # Ne pas parser la balise <li> d'indice 0
+    # Ne pas parser la balise <li> d'indice 0 pour ne pas extraire la catégorie 'Books'
     all_li = home_soup.find('ul', class_="nav nav-list").find_all('li')[1:]
     for li in all_li:
         categories_urls.append(home_url + li.find("a")["href"])
