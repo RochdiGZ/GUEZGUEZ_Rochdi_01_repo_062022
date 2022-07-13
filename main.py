@@ -10,5 +10,7 @@ Bienvenue dans notre application qui nous permet via le lien {web_site_url} de :
 ------------------------------------------------------------------------------------------------------------"""
 
 print(menu)
+
 scrape_books_informations_from(web_site_url)
+
 scrape_books_images_from(web_site_url)
