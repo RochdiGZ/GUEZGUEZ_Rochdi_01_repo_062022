@@ -1,7 +1,7 @@
 import re
 import requests
 from pathlib import Path
-from modules_to_import import get_html_code_from, get_pages_urls_of_category, website_url
+from functions_to_import import get_html_code_from, get_pages_urls_of_category, website_url
 
 
 def save_page_images(page_url: str, relative_path: str):

@@ -1,6 +1,6 @@
 import csv
 from pathlib import Path
-from modules_to_import import get_html_code_from, get_pages_urls_of_category, website_url
+from functions_to_import import get_html_code_from, get_pages_urls_of_category, website_url
 
 # Définir une liste contenant les clés des données pour un livre (la première ligne de chaque fichier CSV)
 keys = ["product_page_url", "universal_product_code", "title", "price_including_tax", "price_excluding_tax",
